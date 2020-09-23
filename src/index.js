@@ -3,18 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-// import greeting, {name as secondName, surname} from './demo/hello';
-// import * as props from './demo/hello';
-
-// import {name, surname} from './demo/hello';
-// import {surname} from './demo/hello';
-
-
-// greeting();
-// console.log(secondName);
-// console.log(surname);
-
-// console.log(props.default);
 
 ReactDOM.render(
   <React.StrictMode>
