@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
-// import './demo/example';
+// import './demo/classes';
+import Person from './demo/Person';
 
 function Name(props) {
   // console.log(props)
@@ -50,6 +51,7 @@ function App() {
 
     <Greeting />
 
+    <Person name='John Smith'/>
     </div>
 
   );
