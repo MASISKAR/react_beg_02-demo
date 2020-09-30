@@ -12,7 +12,7 @@ class Product extends Component {
             <div>
             <Name text = {this.props.name}/>
             <Description text = {this.props.description}/>
-            <Price text = {this.props.price}/>
+            <Price text = {this.props.price} rate={this.props.rate}/>
             </div>
         );
     }
