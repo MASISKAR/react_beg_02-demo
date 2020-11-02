@@ -1,90 +1,75 @@
-import React from 'react';
-// import B from './B';
-// import C from './C';
-// import D from './D';
-import E from './E';
+import React, { Component } from 'react';
 
+class A extends Component {
+constructor(props){
+    super(props);
 
-
-
-class A extends React.Component {
-    state = {
-        count: 0,
-        inputValue: '',
-        value: ''
+    this.state = {
+        counter: props.initialCount,
+        fruits: ['Apple', 'Banana', 'Pear', 'Cherry']
     };
+}
 
-    handleClick = () => {
-        /*         this.setState({
-                    count: this.state.count+1
-                }, 
-                ()=>{
-                    console.log(this.state.count);
-                }); */
-
-        this.setState((state) => {
-            return {
-                count: state.count + 1
-            };
-        },
-            () => {
-                console.log('first');
-            });
-
-    };
-
-    handleChange = (event) => {
-
-        this.setState({
-            inputValue: event.target.value
-        })
-    };
-
-getValue = (value)=>{
-
+handleClick = ()=>{
     this.setState({
-        value
-    });
+        counter: this.state.counter + 1
+});
 };
 
 
+
     render() {
-        // console.log('A state', this.state)
+/* const fuits = [
+    <div key='asdas'>Apple</div>,
+    <div key='dsdfsd'>Banana</div>,
+    <div key='dafsd'>Pear</div>,
+    <div key='dfsdg'>Grape</div>
+]; */
+
+
+        const {text} = this.props;
+        const {counter, fruits} = this.state;
+
+        const fruitsElems = fruits.map((fruit, index, arr)=>{
+                return (
+                    <div key={index}>{fruit}</div>
+                );
+        });
+
         return (
+            <>
+            <div>{text}</div>
+            <div>{counter}</div>
 
-            <div>
-{/*                 <p>{this.state.count}</p>
-                <button
-                    onClick={this.handleClick}
-                >
-                    Click me
+            { counter > 5 ?
+                <div>The counter is more than 5</div> :
+                <div>The counter is less than 5</div>
+            }
+
+            { counter > 3 ?
+                <div>The counter is more than 3</div> : null
+            }
+
+            { counter > 3 && <div>The counter is more than 3</div> }
+
+            <button
+/*             onClick = {(function(){ 
+                console.log(this);
+                this.setState({
+                        counter: this.state.counter + 1
+                });
+
+             }).bind(this)} */
+             onClick = {this.handleClick}
+            >
+            +
             </button>
-                <div>
-                    <input
-                        type="text"
-                        onChange={this.handleChange}
-                    />
-                </div>
-                <p>{this.state.inputValue}</p>
 
-----------------------------
-                <B 
-                count = {this.state.count}
-                name= "some name"
-                onSendValue = {this.getValue}
-                />
-
-                <C text={this.state.value}/>
-
-                -----------------------------
-                <D/> */}
-
-                <E/>
-            </div>
-
-
+            {fruitsElems}
+            </>
         );
     }
+
 }
 
 export default A;
