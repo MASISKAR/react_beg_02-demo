@@ -1,16 +1,19 @@
 import React from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 // import './demo/lesson-5';
 // import Product from './demo/Product';
 // import Counter from './demo/Counter';
-import ToDo from './components/ToDo';
+// import ToDo from './components/ToDo';
+import BootstrapDemo from './demo/BootstrapDemo';
+
 
 
 function App() {
   // const surname = 'Smith';
 
   return (
-    <div className="App">
+    <div className="App block container">
 {/*     <Product 
     name={'banabas'} 
     price='1$'
@@ -25,7 +28,9 @@ function App() {
 
    {/* <A text='Hello!' initialCount = {0}/> */}
 
-   <ToDo />
+  {/*  <ToDo /> */}
+
+   <BootstrapDemo />
     </div>
 
   );

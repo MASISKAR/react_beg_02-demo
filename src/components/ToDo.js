@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import Task from './Task';
+import Task from './task/Task';
+import picture from '../assets/images/pic.png';
+import idGenerator from '../helpers/idGenerator';
+
+const inputStyle = {
+    border: "1px solid red",
+    backgroundColor: '#f60'
+};
 
 class ToDo extends Component {
     state = {
@@ -37,6 +44,7 @@ const {inputValue, tasks} = this.state;
                 placeholder='Add new task'
                 value = {inputValue}
                 onChange={this.handleChange} 
+                style ={inputStyle}
                 />
 
                 <input 
@@ -44,11 +52,17 @@ const {inputValue, tasks} = this.state;
                 value='Add' 
                 onClick = {this.addTask}
                 />
+                <img src={picture} alt="somepic"/>
+                <img src={require('../assets/images/pic.png')} alt="somepic"/>
 
                 <ol>
+                
                 {tasks.map((task, index) => {
                     // return <li key={index}>{task}</li>
-                    return <Task key={index} data={task}/>
+                    // if(index === 2){
+                    //     return <Task key={index} data={task} selected/>
+                    // }
+                    return <Task key={idGenerator()} data={task} selected={index === 2}/>
 
                 })}
                 </ol>
