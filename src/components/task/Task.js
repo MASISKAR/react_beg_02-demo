@@ -1,32 +1,62 @@
-import React from 'react';
-import classes from './taskStyle.module.css';
+import React, {Component} from 'react';
+import { Button, Card } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import styles from './taskStyle.module.css';
 
 
-/* function Task(props){
-const classes = [styles.task];
-if(props.selected){
-    classes.push(styles.selected);
-}
+class Task extends Component{
+state = {
+    checked: false
+};
 
-    return (
-        <>
-       <li className={styles.task + ' selected'}>{props.data}</li>
-        <li className={`${styles.task} selected`}>{props.data}</li> 
-        <li className={[styles.task, 'selected'].join(' ')}>{props.data}</li>
- 
-        <li className={classes.join(' ')}>{props.data}</li>
-        </>
-    );
-} 
-*/
+handleCheck = ()=>{
+    this.setState({
+        checked: !this.state.checked
+    });
 
-function Task(props){
+    const {onCheck, data} = this.props;
+    onCheck(data._id);
+};
+
+
+    render() {
+        const task = this.props.data;
+        const {checked} = this.state;
+        const {disabled} = this.props;
+
         return (
-            <>
-            <li className={`${classes.task} ${props.selected ? classes.selected : ''}`}>{props.data}</li>
-            </>
+            <Card className={`${styles.task} ${checked ? styles.selected: ''}`}>
+                        <Card.Body>
+                            <input 
+                            type='checkbox' 
+                            onClick = {this.handleCheck}
+                            />
+                            <Card.Title>{task.text.slice(0, 10) + '...'}</Card.Title>
+                            <Card.Text>
+                                {task.text}
+                            </Card.Text>
+                            <Button 
+                            variant="warning" 
+                            className={styles.actionButton}
+                            disabled = {disabled}
+                            >
+                            <FontAwesomeIcon icon={faEdit} />
+                            </Button>
+
+                            <Button 
+                            variant="danger"  
+                            className={styles.actionButton}
+                            onClick = {()=>this.props.onRemove(task._id)}
+                            disabled = {disabled}
+                            >
+                            <FontAwesomeIcon icon={faTrash} />
+                            </Button>
+                        </Card.Body>
+                    </Card>
         );
     }
+
+}
 
 export default Task;

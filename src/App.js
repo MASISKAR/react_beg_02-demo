@@ -8,7 +8,6 @@ import ToDo from './components/ToDo/ToDo';
 // import BootstrapDemo from './demo/BootstrapDemo';
 
 
-
 function App() {
 
   return (

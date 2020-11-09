@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-// import Task from './task/Task';
+import Task from '../task/Task';
 import idGenerator from '../../helpers/idGenerator';
-import { Container, Row, Col, FormControl, InputGroup, Button, Card } from 'react-bootstrap';
+import { Container, Row, Col, FormControl, InputGroup, Button } from 'react-bootstrap';
 import styles from './todoStyle.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 class ToDo extends Component {
     state = {
         tasks: [],
-        inputValue: ''
+        inputValue: '',
+        selectedTasks: new Set()
     };
 
     handleInputChange = (event) => {
@@ -18,15 +17,15 @@ class ToDo extends Component {
         });
     };
 
-    handleKeyDown = (event)=>{
-        if(event.key === 'Enter'){
+    handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
             this.addTask();
         }
     };
 
-    addTask = ()=>{
-        const {inputValue} = this.state;
-        if(!inputValue){
+    addTask = () => {
+        const { inputValue } = this.state;
+        if (!inputValue) {
             return;
         }
 
@@ -42,37 +41,53 @@ class ToDo extends Component {
         });
     };
 
-    removeTask = (taskId)=>{
+    removeTask = (taskId) => {
         const newTasks = this.state.tasks.filter(task => task._id !== taskId);
         this.setState({
             tasks: newTasks
         });
     };
 
+    handleCheck = (taskId) => {
+        const selectedTasks = new Set(this.state.selectedTasks);
+        if (selectedTasks.has(taskId)) {
+            selectedTasks.delete(taskId);
+        }
+        else {
+            selectedTasks.add(taskId);
+        }
+
+        this.setState({
+            selectedTasks
+        });
+
+    };
+
+    removeSelected = ()=>{
+        let tasks = [...this.state.tasks];
+        
+        this.state.selectedTasks.forEach((id)=>{
+            tasks = tasks.filter((task)=> task._id !== id);
+        });
+
+        this.setState({
+            tasks,
+            selectedTasks: new Set()
+        });
+    };
+
+
     render() {
-        const {tasks, inputValue} = this.state;
+        const { tasks, inputValue, selectedTasks } = this.state;
         const tasksArray = tasks.map((task) => {
             return (
                 <Col key={task._id} xs={12} sm={6} md={4} lg={3} xl={2}>
-                    <Card className={styles.task}>
-                        <Card.Body>
-                            <Card.Title>{task.text.slice(0, 10) + '...'}</Card.Title>
-                            <Card.Text>
-                                {task.text}
-                            </Card.Text>
-                            <Button variant="warning" className={styles.actionButton}>
-                            <FontAwesomeIcon icon={faEdit} />
-                            </Button>
-
-                            <Button 
-                            variant="danger"  
-                            className={styles.actionButton}
-                            onClick = {()=>this.removeTask(task._id)}
-                            >
-                            <FontAwesomeIcon icon={faTrash} />
-                            </Button>
-                        </Card.Body>
-                    </Card>
+                    <Task
+                        data={task}
+                        onRemove={this.removeTask}
+                        onCheck={this.handleCheck}
+                        disabled = {!!selectedTasks.size}
+                    />
                 </Col>
             )
         });
@@ -89,16 +104,17 @@ class ToDo extends Component {
                                     aria-label="Input new task"
                                     aria-describedby="basic-addon2"
                                     onChange={this.handleInputChange}
-                                    onKeyDown = {this.handleKeyDown}
-                                    value = {inputValue}
+                                    onKeyDown={this.handleKeyDown}
+                                    value={inputValue}
+                                    disabled = {!!selectedTasks.size}
                                 />
                                 <InputGroup.Append>
-                                    <Button 
-                                    variant="outline-primary"
-                                    onClick={this.addTask}
-                                    disabled = {!inputValue}
+                                    <Button
+                                        variant="outline-primary"
+                                        onClick={this.addTask}
+                                        disabled={!inputValue}
                                     >
-                                    Add
+                                        Add
                                     </Button>
                                 </InputGroup.Append>
                             </InputGroup>
@@ -108,6 +124,18 @@ class ToDo extends Component {
 
                     <Row>
                         {tasksArray}
+                    </Row>
+
+                    <Row className='justify-content-center'>
+                        <Col xs={4} >
+                        <Button
+                            variant="outline-danger"
+                            onClick={this.removeSelected}
+                            disabled = {!selectedTasks.size}
+                        >
+                            Remove selected
+                        </Button>
+                        </Col>
                     </Row>
                 </Container>
 
