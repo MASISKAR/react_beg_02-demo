@@ -1,71 +1,82 @@
 import React, { Component } from 'react';
+import B from './B';
 
 class A extends Component {
 constructor(props){
     super(props);
 
     this.state = {
-        counter: props.initialCount,
-        fruits: ['Apple', 'Banana', 'Pear', 'Cherry']
+        counter: 0,
+        text: '',
+        show: true
     };
+
+    console.log('A constructor');
 }
 
-handleClick = ()=>{
-    this.setState({
-        counter: this.state.counter + 1
-});
-};
+
+componentDidMount(){
+    console.log('A componentDidMount');
+}
+
+componentDidUpdate(prevProps, prevState){
+    console.log('A componentDidUpdate');
+    console.log('prevProps', prevProps);
+    console.log('prevState', prevState);
+
+    console.log('this.props', this.props);
+    console.log('this.state', this.state);
+   
+    if(prevState.counter %2=== 0 && this.state.counter>4){
+        console.log('test');
+        this.setState({
+            text: 'This is a text'
+        });
+    }
+}
+
+shouldComponentUpdate(prevProps, prevState){
+console.log('A shouldComponentUpdate');
+
+    if(prevState.counter >10){
+        return false;
+    }
+    
+        return true;
+    
+}
 
 
+    handleClick = ()=>{
+        this.setState({
+            counter: this.state.counter +1
+        });
+    };
+
+    toggle = ()=>{
+        this.setState({
+            show: !this.state.show
+        });
+    };
 
     render() {
-/* const fuits = [
-    <div key='asdas'>Apple</div>,
-    <div key='dsdfsd'>Banana</div>,
-    <div key='dafsd'>Pear</div>,
-    <div key='dfsdg'>Grape</div>
-]; */
-
-
-        const {text} = this.props;
-        const {counter, fruits} = this.state;
-
-        const fruitsElems = fruits.map((fruit, index, arr)=>{
-                return (
-                    <div key={index}>{fruit}</div>
-                );
-        });
+        console.log('A render');
 
         return (
             <>
-            <div>{text}</div>
-            <div>{counter}</div>
-
-            { counter > 5 ?
-                <div>The counter is more than 5</div> :
-                <div>The counter is less than 5</div>
-            }
-
-            { counter > 3 ?
-                <div>The counter is more than 3</div> : null
-            }
-
-            { counter > 3 && <div>The counter is more than 3</div> }
-
+            <div>{this.state.counter}</div>
             <button
-/*             onClick = {(function(){ 
-                console.log(this);
-                this.setState({
-                        counter: this.state.counter + 1
-                });
-
-             }).bind(this)} */
              onClick = {this.handleClick}
             >
             +
             </button>
-
-            {fruitsElems}
+            <button
+             onClick = {this.toggle}
+            >
+            Toggle
+            </button>
+            
+            {this.state.show && <B data={this.state.text}/>}
             </>
         );
     }

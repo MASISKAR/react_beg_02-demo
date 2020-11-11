@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Task from '../task/Task';
 import idGenerator from '../../helpers/idGenerator';
 import { Container, Row, Col, FormControl, InputGroup, Button } from 'react-bootstrap';
 import styles from './todoStyle.module.css';
 
-class ToDo extends Component {
+class ToDo extends PureComponent {
     state = {
         tasks: [],
         inputValue: '',
@@ -78,6 +78,7 @@ class ToDo extends Component {
 
 
     render() {
+        console.log('Todo render');
         const { tasks, inputValue, selectedTasks } = this.state;
         const tasksArray = tasks.map((task) => {
             return (

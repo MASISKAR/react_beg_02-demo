@@ -1,41 +1,13 @@
-import React from 'react';
+import React, {memo} from 'react';
 
-class D extends React.Component {
-    state = {
-        name: 'John Doe',
-        showName: true
-    }
+function D(){
+console.log('D component');
 
-    toggleName = () => {
-
-        this.setState({
-            showName: !this.state.showName
-        });
-    };
-
-    render() {
-        const { name, showName } = this.state;
-        return (
-            <>
-                {showName ? 
-                    <p>{name}</p> : 
-                    <p>There's nothing to show</p>
-                }
-                {showName ? 
-                    <p>{name}</p> : 
-                    null
-                }
-                { showName && <p>{name}</p> }
-                <div>
-                    <button
-                        onClick={this.toggleName}
-                    >
-                        Click
-</button>
-                </div>
-            </>
-        );
-    }
+    return (
+    <div>
+        D component
+         </div>
+    );
 }
 
-export default D;
+export default memo(D);

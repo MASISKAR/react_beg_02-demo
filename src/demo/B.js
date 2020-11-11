@@ -1,50 +1,56 @@
-import React from 'react';
+import React, { Component } from 'react';
+import C from './C';
 
-class B extends React.Component {
-    state = {
-        inputValue: ''
+class B extends Component {
+constructor(props){
+    super(props);
+
+    this.state = {
+        
     };
 
-    handleClick = () => {
-        const value = this.state.inputValue;
-        this.props.onSendValue(value);
-        this.setState({
-            inputValue: ""
-        });
-    };
+    console.log('B constructor');
+}
 
-    handleChange = (event) => {
 
-        this.setState({
-            inputValue: event.target.value
-        });
-    };
+componentDidMount(){
+    console.log('B componentDidMount');
+}
+
+componentDidUpdate(prevProps, prevState){
+    console.log('B componentDidUpdate');
+    // console.log('prevProps', prevProps);
+    // console.log('prevState', prevState);
+
+    // console.log('this.props', this.props);
+    // console.log('this.state', this.state);
+}
+
+/* shouldComponentUpdate(prevProps, prevState){
+console.log('B shouldComponentUpdate');
+if(prevProps.data !== this.props.data){
+    return true;
+}
+    
+return false;
+} */
+
+componentWillUnmount(){
+    console.log('B componentWillUnmount');
+}
 
     render() {
-    //  console.log(this.props)
-const {inputValue} = this.state;
+        console.log('B render');
+
         return (
-
-            <div>
-
-                <input
-                    value={inputValue}
-                    type="text"
-                    onChange={this.handleChange}
-                />
-                <button
-                    onClick={this.handleClick}
-                >
-                    Send
-            </button>
-
-            <p>{this.props.name}</p>
-            <p>{this.props.count}</p>
-
-            </div>
-
+            <>
+            <div>B component</div>
+        <p>{this.props.data}</p>
+        <C />
+            </>
         );
     }
+
 }
 
 export default B;

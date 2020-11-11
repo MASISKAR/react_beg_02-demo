@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import styles from './taskStyle.module.css';
 
 
-class Task extends Component{
+class Task extends PureComponent{
 state = {
     checked: false
 };
@@ -19,11 +19,15 @@ handleCheck = ()=>{
     onCheck(data._id);
 };
 
+componentWillUnmount(){
+    console.log('Task componentWillUnmount');
+}
 
     render() {
         const task = this.props.data;
         const {checked} = this.state;
         const {disabled} = this.props;
+console.log('Task render');
 
         return (
             <Card className={`${styles.task} ${checked ? styles.selected: ''}`}>
