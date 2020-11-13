@@ -1,43 +1,30 @@
 import React, { PureComponent } from 'react';
 import Task from '../task/Task';
 import idGenerator from '../../helpers/idGenerator';
-import { Container, Row, Col, FormControl, InputGroup, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import AddTask from '../AddTask/AddTask';
+import Confirm from '../Confirm';
+import EditTaskModal from '../EditTaskModal/EditTaskModal';
 import styles from './todoStyle.module.css';
 
 class ToDo extends PureComponent {
     state = {
         tasks: [],
-        inputValue: '',
-        selectedTasks: new Set()
+        selectedTasks: new Set(),
+        showConfirm: false,
+        editTask: null
     };
 
-    handleInputChange = (event) => {
-        this.setState({
-            inputValue: event.target.value
-        });
-    };
-
-    handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
-            this.addTask();
-        }
-    };
-
-    addTask = () => {
-        const { inputValue } = this.state;
-        if (!inputValue) {
-            return;
-        }
+    addTask = (value) => {
 
         const newTask = {
-            text: inputValue,
+            text: value,
             _id: idGenerator()
         };
 
         const tasks = [newTask, ...this.state.tasks];
         this.setState({
-            tasks: tasks,
-            inputValue: ''
+            tasks: tasks
         });
     };
 
@@ -63,23 +50,35 @@ class ToDo extends PureComponent {
 
     };
 
-    removeSelected = ()=>{
+    removeSelected = () => {
         let tasks = [...this.state.tasks];
-        
-        this.state.selectedTasks.forEach((id)=>{
-            tasks = tasks.filter((task)=> task._id !== id);
+
+        this.state.selectedTasks.forEach((id) => {
+            tasks = tasks.filter((task) => task._id !== id);
         });
 
         this.setState({
             tasks,
-            selectedTasks: new Set()
+            selectedTasks: new Set(),
+            showConfirm: false
         });
+
     };
 
+    toggleConfirm = () => {
+        this.setState({
+            showConfirm: !this.state.showConfirm
+        });
+    }
+
+    toogleEditModal = (task)=>{
+        this.setState({
+            editTask: task
+        });
+    }
 
     render() {
-        console.log('Todo render');
-        const { tasks, inputValue, selectedTasks } = this.state;
+        const { tasks, selectedTasks, showConfirm, editTask } = this.state;
         const tasksArray = tasks.map((task) => {
             return (
                 <Col key={task._id} xs={12} sm={6} md={4} lg={3} xl={2}>
@@ -87,7 +86,8 @@ class ToDo extends PureComponent {
                         data={task}
                         onRemove={this.removeTask}
                         onCheck={this.handleCheck}
-                        disabled = {!!selectedTasks.size}
+                        disabled={!!selectedTasks.size}
+                        onEdit = {this.toogleEditModal}
                     />
                 </Col>
             )
@@ -99,26 +99,10 @@ class ToDo extends PureComponent {
                 <Container>
                     <Row className='justify-content-center'>
                         <Col sm={10} xs={12} md={8} lg={6}>
-                            <InputGroup className={styles.input}>
-                                <FormControl
-                                    placeholder="Input new task"
-                                    aria-label="Input new task"
-                                    aria-describedby="basic-addon2"
-                                    onChange={this.handleInputChange}
-                                    onKeyDown={this.handleKeyDown}
-                                    value={inputValue}
-                                    disabled = {!!selectedTasks.size}
-                                />
-                                <InputGroup.Append>
-                                    <Button
-                                        variant="outline-primary"
-                                        onClick={this.addTask}
-                                        disabled={!inputValue}
-                                    >
-                                        Add
-                                    </Button>
-                                </InputGroup.Append>
-                            </InputGroup>
+                            <AddTask
+                                onAdd={this.addTask}
+                                disabled={!!selectedTasks.size}
+                            />
                         </Col>
 
                     </Row>
@@ -129,16 +113,34 @@ class ToDo extends PureComponent {
 
                     <Row className='justify-content-center'>
                         <Col xs={4} >
-                        <Button
-                            variant="outline-danger"
-                            onClick={this.removeSelected}
-                            disabled = {!selectedTasks.size}
-                        >
-                            Remove selected
+                            <Button
+                                variant="outline-danger"
+                                onClick={this.toggleConfirm}
+                                disabled={!selectedTasks.size}
+                            >
+                                Remove selected
                         </Button>
                         </Col>
                     </Row>
                 </Container>
+
+                {
+                    showConfirm &&
+                    <Confirm
+                        onSubmit={this.removeSelected}
+                        onClose={this.toggleConfirm}
+                        count={selectedTasks.size}
+                    />
+                }
+                {
+                    !!editTask &&
+                    <EditTaskModal 
+                    data = {editTask}
+                    onSave = {(task)=> console.log('task', task)}
+                    onClose = {()=> this.toogleEditModal(null)}
+                    />
+                }
+
 
             </div>
         );

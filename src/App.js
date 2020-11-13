@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import A from './demo/A';
+// import './demo/classes';
 // import Product from './demo/Product';
 // import Counter from './demo/Counter';
 import ToDo from './components/ToDo/ToDo';

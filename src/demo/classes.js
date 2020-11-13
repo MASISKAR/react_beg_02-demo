@@ -4,35 +4,43 @@ class Animal {
         this.name = name;
         this.species = species;
     }
-    eat(){
+   static eat(){
         return 'eating...';
-    }
+    };
     run = () => 'running...';
     sleep = () => 'sleeping...';
 }
 
-class Cat extends Animal{
-    constructor(name, color){
-        super('cat', name);
-        this.color = color;
-    }
-    // species = 'cat';
-}
+Animal.test = true;
 
-class Dog extends Animal{
-    constructor(name, age){
-        super('dog', name);
-        this.age = age; 
-    }
-    // species = 'dog';
-}
-
-let cat = new Cat('Kitty', 'white');
-let dog = new Dog('Doggy', 2);
+const dog = new Animal('dog', 'Doggy');
 
 
-console.log(cat);
-console.log(dog);
+console.log(Animal.test);
+
+
+// class Cat extends Animal{
+//     constructor(name, color){
+//         super('cat', name);
+//         this.color = color;
+//     }
+//     // species = 'cat';
+// }
+
+// class Dog extends Animal{
+//     constructor(name, age){
+//         super('dog', name);
+//         this.age = age; 
+//     }
+//     // species = 'dog';
+// }
+
+// let cat = new Cat('Kitty', 'white');
+// let dog = new Dog('Doggy', 2);
+
+
+// console.log(cat);
+// console.log(dog);
 
 
 

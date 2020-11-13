@@ -3,7 +3,7 @@ import { Button, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import styles from './taskStyle.module.css';
-
+import PropTypes from 'prop-types';
 
 class Task extends PureComponent{
 state = {
@@ -19,15 +19,11 @@ handleCheck = ()=>{
     onCheck(data._id);
 };
 
-componentWillUnmount(){
-    console.log('Task componentWillUnmount');
-}
 
     render() {
         const task = this.props.data;
         const {checked} = this.state;
         const {disabled} = this.props;
-console.log('Task render');
 
         return (
             <Card className={`${styles.task} ${checked ? styles.selected: ''}`}>
@@ -44,6 +40,7 @@ console.log('Task render');
                             variant="warning" 
                             className={styles.actionButton}
                             disabled = {disabled}
+                            onClick = {()=> this.props.onEdit(task)}
                             >
                             <FontAwesomeIcon icon={faEdit} />
                             </Button>
@@ -62,5 +59,12 @@ console.log('Task render');
     }
 
 }
+
+Task.propTypes = {
+    data: PropTypes.object.isRequired,
+    onRemove: PropTypes.func.isRequired,
+    onCheck: PropTypes.func.isRequired,
+    disabled: PropTypes.bool.isRequired
+};
 
 export default Task;
