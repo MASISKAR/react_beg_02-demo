@@ -115,26 +115,61 @@ function sum(a, b) {
 
 
 
-sqrt(100)
-    .then((res) => {
-        console.log('sqrt', res);
-        sum(res, 20)
-            .then((res) => {
-                console.log('sum', res);
-            });
-    });
+// sqrt(100)
+//     .then((res) => {
+//         console.log('sqrt', res);
+//         sum(res, 20)
+//             .then((res) => {
+//                 console.log('sum', res);
+//             });
+//     });
 
-    sqrt(100)
-    .then((res) => {
-        console.log('sqrt', res);
-       return sum(res, 20);
-            
-    })
-    .then((res) => {
-        console.log('sum', res);
-    });
+// sqrt(100)
+// .then((res) => {
+//     console.log('sqrt', res);
+//    return sum(res, 20);
 
-    
+// })
+// .then((res) => {
+//     console.log('sum', res);
+// });
+
+
+// sqrt(100)
+// .then(async (res) => {
+//     console.log('sqrt', res);
+//    let s = await sum(res, 20);
+//    console.log('s', s);
+// });
+
+
+
+// async/await
+
+// let s = sqrt(144);
+// console.log('s', s);
+
+// s.then((result)=>{
+//     console.log('result from s', result);
+// });
+
+// async function example(){
+
+// let s = await sqrt(144);
+// let summ = await sum(10, 20);
+
+// console.log('s', s);
+// console.log('summ', summ);
+// }
+
+// example();
+
+// s.then((result)=>{
+//     console.log('result from s', result);
+// });
+
+
+
 
 // sum(10, 20)
 //     .then((res) => {
@@ -153,17 +188,37 @@ sqrt(100)
 
 
 
-        console.log('end');
+// console.log('end');
 
 
 
+// fetch('https://jsonplaceholder.typicode.com/posts')
+//     .then((res) => res.json())
+//     .then((posts) => {
+//         console.log(posts);
+//     });
 
 
+    //ver 1
+// async function getPosts(){
+//   const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+//   console.log('res',res);
 
+//   const posts = await res.json();
 
+//         console.log(posts);
 
+// }
 
+//ver 2
+// async function getPosts(){
+//     const posts = await fetch('https://jsonplaceholder.typicode.com/posts')
+//     .then(res => res.json());
+//           console.log(posts);
+  
+//   }
 
+// getPosts();
 
 
 
@@ -177,3 +232,21 @@ sqrt(100)
 // }
 
 // console.log('end');
+
+const newPost = {
+    title: 'sds sdf sd fs df sdf',
+    content: 'asdiojadli csdkjnsdknsd sd kjsdfks fjs dk'
+};
+
+
+fetch('https://jsonplaceholder.typicode.com/posts', {
+    method: 'POST',
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(newPost)
+})
+    .then((res) => res.json())
+    .then((result) => {
+        console.log('result', result);
+    });
