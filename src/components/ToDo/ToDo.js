@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import Task from '../task/Task';
-import idGenerator from '../../helpers/idGenerator';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import AddTask from '../AddTask/AddTask';
 import Confirm from '../Confirm';
@@ -15,17 +14,59 @@ class ToDo extends PureComponent {
         editTask: null
     };
 
-    addTask = (value) => {
+componentDidMount(){
+    fetch("http://localhost:3001/task", {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        .then((res)=> res.json())
+        .then(response => {
+            if(response.error){
+                throw response.error;
+            }
+        
+        this.setState({
+            tasks: response
+        });
 
-        const newTask = {
-            text: value,
-            _id: idGenerator()
-        };
+        })
+        .catch((error)=>{
+        console.log("ToDo -> error", error)
+        });
+}
 
-        const tasks = [newTask, ...this.state.tasks];
+
+
+
+
+    addTask = (data) => {
+            const body = JSON.stringify(data);
+
+        fetch("http://localhost:3001/task", {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: body
+        })
+        .then((res)=> res.json())
+        .then(response => {
+            if(response.error){
+                throw response.error;
+            }
+
+         const tasks = [response, ...this.state.tasks];
         this.setState({
             tasks: tasks
         });
+
+        })
+        .catch((error)=>{
+        console.log("ToDo -> error", error)
+        });
+
     };
 
     removeTask = (taskId) => {
