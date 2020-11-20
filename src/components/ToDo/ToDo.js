@@ -14,35 +14,35 @@ class ToDo extends PureComponent {
         editTask: null
     };
 
-componentDidMount(){
-    fetch("http://localhost:3001/task", {
+    componentDidMount() {
+        fetch("http://localhost:3001/task", {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json"
             },
         })
-        .then((res)=> res.json())
-        .then(response => {
-            if(response.error){
-                throw response.error;
-            }
-        
-        this.setState({
-            tasks: response
-        });
+            .then((res) => res.json())
+            .then(response => {
+                if (response.error) {
+                    throw response.error;
+                }
 
-        })
-        .catch((error)=>{
-        console.log("ToDo -> error", error)
-        });
-}
+                this.setState({
+                    tasks: response
+                });
+
+            })
+            .catch((error) => {
+                console.log("ToDo -> error", error)
+            });
+    }
 
 
 
 
 
     addTask = (data) => {
-            const body = JSON.stringify(data);
+        const body = JSON.stringify(data);
 
         fetch("http://localhost:3001/task", {
             method: 'POST',
@@ -51,29 +51,49 @@ componentDidMount(){
             },
             body: body
         })
-        .then((res)=> res.json())
-        .then(response => {
-            if(response.error){
-                throw response.error;
-            }
+            .then((res) => res.json())
+            .then(response => {
+                if (response.error) {
+                    throw response.error;
+                }
 
-         const tasks = [response, ...this.state.tasks];
-        this.setState({
-            tasks: tasks
-        });
+                const tasks = [response, ...this.state.tasks];
+                this.setState({
+                    tasks: tasks
+                });
 
-        })
-        .catch((error)=>{
-        console.log("ToDo -> error", error)
-        });
+            })
+            .catch((error) => {
+                console.log("ToDo -> error", error)
+            });
 
     };
 
     removeTask = (taskId) => {
-        const newTasks = this.state.tasks.filter(task => task._id !== taskId);
-        this.setState({
-            tasks: newTasks
-        });
+
+        fetch(`http://localhost:3001/task/${taskId}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then((res) => res.json())
+            .then(response => {
+                if (response.error) {
+                    throw response.error;
+                }
+
+                const newTasks = this.state.tasks.filter(task => task._id !== taskId);
+                this.setState({
+                    tasks: newTasks
+                });
+
+            })
+            .catch((error) => {
+                console.log("ToDo -> error", error)
+            });
+
+
     };
 
     handleCheck = (taskId) => {
@@ -92,17 +112,41 @@ componentDidMount(){
     };
 
     removeSelected = () => {
-        let tasks = [...this.state.tasks];
+        // console.log(Array.from(this.state.selectedTasks))
+        // console.log([...this.state.selectedTasks])
 
-        this.state.selectedTasks.forEach((id) => {
-            tasks = tasks.filter((task) => task._id !== id);
-        });
+        const body = {
+            tasks: [...this.state.selectedTasks]
+        };
+        fetch(`http://localhost:3001/task`, {
+            method: 'PATCH',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        })
+            .then((res) => res.json())
+            .then(response => {
+                if (response.error) {
+                    throw response.error;
+                }
 
-        this.setState({
-            tasks,
-            selectedTasks: new Set(),
-            showConfirm: false
-        });
+                let tasks = [...this.state.tasks];
+
+                this.state.selectedTasks.forEach((id) => {
+                    tasks = tasks.filter((task) => task._id !== id);
+                });
+
+                this.setState({
+                    tasks,
+                    selectedTasks: new Set(),
+                    showConfirm: false
+                });
+
+            })
+            .catch((error) => {
+                console.log("ToDo -> error", error)
+            });
 
     };
 
@@ -112,24 +156,45 @@ componentDidMount(){
         });
     }
 
-    toogleEditModal = (task)=>{
+    toogleEditModal = (task) => {
         this.setState({
             editTask: task
         });
     }
 
-    saveTask = (editedTask)=>{
-        const tasks = [...this.state.tasks];
+    saveTask = (editedTask) => {
 
-        const foundTaskIndex = tasks.findIndex((task)=> task._id === editedTask._id);
-        tasks[foundTaskIndex] = editedTask;
+        fetch(`http://localhost:3001/task/${editedTask._id}`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(editedTask)
+        })
+            .then((res) => res.json())
+            .then(response => {
+   
+                if (response.error) {
+                    throw response.error;
+                }
 
-        this.setState({
-            tasks: tasks,
-            editTask: null
-        });
+                const tasks = [...this.state.tasks];
+
+                const foundTaskIndex = tasks.findIndex((task) => task._id === editedTask._id);
+                tasks[foundTaskIndex] = response;
+        
+                this.setState({
+                    tasks: tasks,
+                    editTask: null
+                });
+
+            })
+            .catch((error) => {
+                console.log("ToDo -> error", error)
+            });
 
     };
+  
 
     render() {
         const { tasks, selectedTasks, showConfirm, editTask } = this.state;
@@ -141,7 +206,7 @@ componentDidMount(){
                         onRemove={this.removeTask}
                         onCheck={this.handleCheck}
                         disabled={!!selectedTasks.size}
-                        onEdit = {this.toogleEditModal}
+                        onEdit={this.toogleEditModal}
                     />
                 </Col>
             )
@@ -188,10 +253,10 @@ componentDidMount(){
                 }
                 {
                     !!editTask &&
-                    <EditTaskModal 
-                    data = {editTask}
-                    onSave = {this.saveTask}
-                    onClose = {()=> this.toogleEditModal(null)}
+                    <EditTaskModal
+                        data={editTask}
+                        onSave={this.saveTask}
+                        onClose={() => this.toogleEditModal(null)}
                     />
                 }
 
