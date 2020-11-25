@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import styles from './taskStyle.module.css';
 import PropTypes from 'prop-types';
+import {formatDate} from '../../helpers/utils';
 
 class Task extends PureComponent{
 state = {
@@ -33,9 +34,10 @@ handleCheck = ()=>{
                             onClick = {this.handleCheck}
                             />
                             <Card.Title>{task.title}</Card.Title>
-                            <Card.Text>
-                                {task.description}
-                            </Card.Text>
+                            <Card.Text>Description: {task.description}</Card.Text>
+                            <Card.Text className={styles.date}>Date: {formatDate(task.date)}</Card.Text>
+                            <Card.Text className={styles.date}>Created at: {formatDate(task.created_at)}</Card.Text>
+
                             <Button 
                             variant="warning" 
                             className={styles.actionButton}
