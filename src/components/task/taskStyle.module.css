@@ -1,0 +1,14 @@
+.task{
+    margin: 10px auto;
+}
+
+.selected{
+    border: 1px solid #f00;
+}
+.actionButton{
+    margin: 5px;
+}
+
+.date{
+    font-size: 14px;
+}
