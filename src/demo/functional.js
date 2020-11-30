@@ -97,9 +97,9 @@
 // console.log('r', r);
 
 
-function sum(a, b){
-    return a+b;
-}
+// function sum(a, b){
+//     return a+b;
+// }
 
 // function logger(x, y, cb){
 //     console.log('x', x);
@@ -111,11 +111,53 @@ function sum(a, b){
 // console.log('res', res);
 
 //decorator
-function logger(cb){
-    console.log('start');
-return cb;
+// function logger(cb){
+//     console.log('start');
+// return cb;
+// }
+
+// let res = logger(sum);
+
+// console.log('res', res(20, 13));
+
+// function f(x, y){
+//     return x+y;
+// }
+
+
+// function a(x){
+// let z = 15;
+
+//      function b(y){
+//             return x+y+z;
+//     }
+
+// return b;
+
+// }
+
+// let s = a(10);
+
+// console.log("s", s)
+
+
+const arr = [2,3,1,54,5,63,8,6,4];
+
+// arr.forEach((el, index, array)=>{
+// console.log("el index array", el, index, array);
+    
+// });
+
+
+function myForEach(fn){
+    const array = this;
+    for(let i=0; i<array.length; i++){
+        fn(array[i], i, array);
+    }
 }
 
-let res = logger(sum);
+Array.prototype.myForEach = myForEach;
 
-console.log('res', res(20, 13));
+arr.myForEach((el, index, array)=>{
+    console.log("el index array", el, index, array);
+});
