@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
-import Task from '../Task/Task';
+import Task from '../../Task/Task';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import AddTask from '../AddTask/AddTask';
-import Confirm from '../Confirm';
-import EditTaskModal from '../EditTaskModal/EditTaskModal';
+import AddTask from '../../AddTask/AddTask';
+import Confirm from '../../Confirm';
+import EditTaskModal from '../../EditTaskModal/EditTaskModal';
 import styles from './todoStyle.module.css';
 
 class ToDo extends PureComponent {
