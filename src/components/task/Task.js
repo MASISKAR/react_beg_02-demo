@@ -26,7 +26,7 @@ handleCheck = ()=>{
         const task = this.props.data;
         const {checked} = this.state;
         const {disabled} = this.props;
-
+        
         return (
             <Card className={`${styles.task} ${checked ? styles.selected: ''}`}>
                         <Card.Body>
