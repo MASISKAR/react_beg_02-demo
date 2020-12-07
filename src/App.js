@@ -7,12 +7,22 @@ import SingleTask from './components/pages/SingleTask/SingleTask';
 import NotFound from './components/pages/NotFound/NotFound';
 import NavMenu from './components/NavMenu/NavMenu';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import RefDemo from './demo/RefDemo';
 
 function App() {
 
   const routes = [
 {
   path: '/',
+  component: ToDo
+},
+
+{
+  path: '/demo',
+  component: RefDemo
+},
+{
+  path: '/task',
   component: ToDo
 },
 {
@@ -34,7 +44,8 @@ function App() {
       <NavMenu />
 
       <Switch>
-      {  routes.map((item, index) => <Route 
+      {  routes.map((item, index) => 
+        <Route 
           path={item.path}
          exact 
          component={item.component} 
