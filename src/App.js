@@ -20,6 +20,10 @@ function App() {
   component: About
 },
 {
+  path: '/demo-for-conflict',
+  component: LifeCycles
+},
+{
   path: '/task/:id',
   component: SingleTask
 },
