@@ -23,29 +23,6 @@ function App() {
   path: '/demo-for-conflict',
   component: LifeCycles
 },
-{
-  path: '/task/:id',
-  component: SingleTask
-},
-{
-  path: '/404',
-  component: NotFound
-}
-  ];
-
-  return (
-    <div className="App">
-      <NavMenu />
-
-      <Switch>
-      {  routes.map((item, index) => <Route 
-          path={item.path}
-         exact 
-         component={item.component} 
-          key={index}
-         />) }
-      <Redirect to='/404' />
-    </Switch>
 
 { /*     <Switch>
         <Route path='/' exact component={ToDo} />
