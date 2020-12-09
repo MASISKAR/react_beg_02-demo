@@ -32,8 +32,8 @@ function App() {
   component: About
 },
 {
-  path: '/task/:id',
-  component: SingleTask
+  path: '/demo-for-conflict',
+  component: LifeCycles
 },
 {
   path: '/404',
