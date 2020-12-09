@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, createRef} from 'react';
 import {Button, Modal, FormControl} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import DatePicker from "react-datepicker";
@@ -14,7 +14,15 @@ export default class EditTaskModal extends Component{
       ...props.data,
       date: date ? new Date(date): new Date()
     };
+
+this.titleRef = createRef(null);
   }
+
+componentDidMount(){
+  this.titleRef.current.focus();
+}
+
+
 
   handleChange = (event) => {
     const {name, value} = event.target;
@@ -65,6 +73,7 @@ export default class EditTaskModal extends Component{
                         value = {title}
                         onChange={this.handleChange}
                         onKeyDown={this.handleKeyDown}
+                        ref = {this.titleRef}
                     />
 
                     <textarea 

@@ -25,11 +25,11 @@ handelClick = ()=>{
         val1: ""
     });
 
-    console.log(this.inputRef.current.offsetHeight);
+    // console.log(this.inputRef.current.offsetHeight);
 }
 
     render() {
-        console.log('render');
+        console.log('render', this.inputRef);
         return (
             <div>
 
@@ -50,6 +50,12 @@ handelClick = ()=>{
                 onClick = {this.handelClick}
                 >
                 Print values
+                </button>
+
+                <button
+                // onClick = {this.handelClick}
+                >
+                focus
                 </button>
             </div>
         );

@@ -7,7 +7,9 @@ import SingleTask from './components/pages/SingleTask/SingleTask';
 import NotFound from './components/pages/NotFound/NotFound';
 import NavMenu from './components/NavMenu/NavMenu';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import RefDemo from './demo/RefDemo';
+// import RefDemo from './demo/RefDemo';
+import LifeCycles from './demo/lifeCycles/lifeCycles';
+
 
 function App() {
 
@@ -19,7 +21,7 @@ function App() {
 
 {
   path: '/demo',
-  component: RefDemo
+  component: LifeCycles
 },
 {
   path: '/task',
