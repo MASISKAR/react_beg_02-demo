@@ -7,12 +7,24 @@ import SingleTask from './components/pages/SingleTask/SingleTask';
 import NotFound from './components/pages/NotFound/NotFound';
 import NavMenu from './components/NavMenu/NavMenu';
 import { Route, Switch, Redirect } from 'react-router-dom';
+// import RefDemo from './demo/RefDemo';
+import LifeCycles from './demo/lifeCycles/lifeCycles';
+
 
 function App() {
 
   const routes = [
 {
   path: '/',
+  component: ToDo
+},
+
+{
+  path: '/demo',
+  component: LifeCycles
+},
+{
+  path: '/task',
   component: ToDo
 },
 {
@@ -23,6 +35,26 @@ function App() {
   path: '/demo-for-conflict',
   component: LifeCycles
 },
+{
+  path: '/404',
+  component: NotFound
+}
+  ];
+
+  return (
+    <div className="App">
+      <NavMenu />
+
+      <Switch>
+      {  routes.map((item, index) => 
+        <Route 
+          path={item.path}
+         exact 
+         component={item.component} 
+          key={index}
+         />) }
+      <Redirect to='/404' />
+    </Switch>
 
 { /*     <Switch>
         <Route path='/' exact component={ToDo} />
