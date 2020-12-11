@@ -1,4 +1,4 @@
-import React, {useState, useEffect, memo, useRef} from 'react';
+import React, {useState, useEffect, useLayoutEffect, memo, useRef} from 'react';
 
 function Hooks(){
 
@@ -10,6 +10,10 @@ const [values, setValues] = useState({
     val2: ''
 });
 
+const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+});
 
 const increment = ()=>{
     setCounter(counter+1);
@@ -29,7 +33,7 @@ const changeValue = (event)=>{
 
 };
 
-// componentDidUpdate
+// componentDidMount, componentDidUpdate
 useEffect(()=>{
     console.log('useEffect componentDidUpdate');
 });
@@ -42,13 +46,30 @@ useEffect(()=>{
 
 //componentDidMount, componentWillUnmount
 useEffect(()=>{
-    console.log('useEffect componentDidMount');
+    console.log('useEffect componentDidMount++++++++++');
+
+document.body.onresize = (event)=>{
+    const size = {
+        width: event.target.innerWidth,
+        height: event.target.innerHeight
+    };
+    
+    setWindowSize(size);
+
+};
 
     return ()=>{
         console.log('useEffect componentWillUnmount');
+
+        document.body.onresize = null;
         };
 
 }, []);
+
+
+useEffect(()=>{
+    console.log('useEffect from size');
+}, [windowSize]);
 
 //componentWillUnmount
 // useEffect(()=>{
@@ -59,8 +80,12 @@ useEffect(()=>{
 //     };
 // }, []);
 
+
+useLayoutEffect(()=>{
+
+});
+
 const inputRef = useRef(null);
-console.log("🚀 inputRef", inputRef);
 
     return (
         <div>
@@ -88,6 +113,9 @@ console.log("🚀 inputRef", inputRef);
         onChange={changeValue}
         />
         
+        <h4>Width: {windowSize.width}</h4>
+        <h4>Height: {windowSize.height}</h4>
+
         </div>
         </div>
     );

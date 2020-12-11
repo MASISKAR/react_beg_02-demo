@@ -1,5 +1,15 @@
 import React, { Component, createRef } from 'react';
 
+class Test extends Component{
+
+    render(){
+        return(
+            <div></div>
+        )
+    }
+}
+
+
 export default class RefDemo extends Component {
 constructor(props){
     super(props);
