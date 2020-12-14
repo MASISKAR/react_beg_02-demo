@@ -15,7 +15,7 @@ class ToDo extends PureComponent {
         openNewTaskModal: false
     };
 
-    componentDidMount() {
+     componentDidMount() {
         fetch("http://localhost:3001/task", {
             method: 'GET',
             headers: {
@@ -37,9 +37,6 @@ class ToDo extends PureComponent {
                 console.log("ToDo -> error", error)
             });
     }
-
-
-
 
 
     addTask = (data) => {
@@ -245,7 +242,6 @@ class ToDo extends PureComponent {
                     <Row>
                         {tasksArray}
                     </Row>
-
                     <Row className='justify-content-center'>
                         <Col xs={4} >
                             <Button
