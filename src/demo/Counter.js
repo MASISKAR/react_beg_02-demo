@@ -1,48 +1,29 @@
 import React, { Component } from 'react';
-
+import ChangeCounter from './ChangeCounter';
+import ShowCounter from './ShowCounter';
+import Message from './Message';
+import {connect} from 'react-redux';
 
 class Counter extends Component {
 
-    //don't use it
-    // constructor(props){
-    //     super(props);
-    //     this.handleClick = this.handleClick.bind(this);
-    // }
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            count: props.defaultValue
-        };
-
-    }
-
-    // state = {
-    //     count: 0,
-    //     value: 45
-    // };
-
-    handleClick = () => {
-        this.setState({
-            count: this.state.count + 1
-        });
-    };
 
     render() {
-       const {count} = this.state;
-       const {name} = this.props;
 
         return (
             <div>
-                <p>{name} {count}</p>
-                <button
-                    onClick={this.handleClick}
-                >
-                    Click me
-            </button>
+            <h2>{this.props.text}</h2>
+               <ShowCounter />
+               <ChangeCounter />
+               <Message />
             </div>
         );
     }
 }
 
-export default Counter;
+const mapStateToProps = (state)=>{
+return {
+    text: state.text
+}
+};
+
+export default connect(mapStateToProps, null)(Counter);
