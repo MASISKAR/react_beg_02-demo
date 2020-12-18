@@ -6,7 +6,7 @@ import About from './components/pages/About/About';
 import NotFound from './components/pages/NotFound/NotFound';
 import NavMenu from './components/NavMenu/NavMenu';
 import { Route, Switch, Redirect } from 'react-router-dom';
-// import RefDemo from './demo/RefDemo';
+import SingleTask from './components/pages/SingleTask/SingleTask';
 // import LifeCycles from './demo/lifeCycles/lifeCycles';
 import Contact from './components/pages/Contact/Contact';
 
@@ -25,6 +25,10 @@ function App() {
 {
   path: '/task',
   component: ToDo
+},
+{
+  path: '/task/:id',
+  component: SingleTask
 },
 {
   path: '/about',

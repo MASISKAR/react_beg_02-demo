@@ -28,7 +28,7 @@ const mapDispatchToProps = (dispatch)=>{
 
     return {
         onChangeValue: (val)=>{
-            console.log('val', val)
+            // console.log('val', val)
             //action
             dispatch({type: 'CHANGE_VALUE', value: val});
         }

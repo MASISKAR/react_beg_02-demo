@@ -5,7 +5,7 @@ class ShowCounter extends Component {
 
     render() {
        const {value} = this.props;
-       console.log('this.props', this.props)
+    //    console.log('this.props', this.props)
 
         return (
                 <p>{value}</p>
