@@ -20,62 +20,13 @@ class ToDo extends PureComponent {
         this.props.getTasks();
     }
 
-
-    addTask = (data) => {
-        const body = JSON.stringify(data);
-
-        fetch("http://localhost:3001/task", {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: body
-        })
-            .then((res) => res.json())
-            .then(response => {
-                if (response.error) {
-                    throw response.error;
-                }
-
-                const tasks = [response, ...this.state.tasks];
-                this.setState({
-                    tasks: tasks,
-                    openNewTaskModal: false
-                });
-
-            })
-            .catch((error) => {
-                console.log("ToDo -> error", error)
-            });
-
-    };
-
-    removeTask = (taskId) => {
-
-        fetch(`http://localhost:3001/task/${taskId}`, {
-            method: 'DELETE',
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-            .then((res) => res.json())
-            .then(response => {
-                if (response.error) {
-                    throw response.error;
-                }
-
-                const newTasks = this.state.tasks.filter(task => task._id !== taskId);
-                this.setState({
-                    tasks: newTasks
-                });
-
-            })
-            .catch((error) => {
-                console.log("ToDo -> error", error)
-            });
+    componentDidUpdate(prevProps){
+        if(!prevProps.addTaskSuccess && this.props.addTaskSuccess){
+            this.toggleNewTaskModal();
+        }
+    }
 
 
-    };
 
     handleCheck = (taskId) => {
         const selectedTasks = new Set(this.state.selectedTasks);
@@ -186,7 +137,7 @@ class ToDo extends PureComponent {
         this.setState({
             openNewTaskModal: !this.state.openNewTaskModal
         });
-    }
+    };
 
     render() {
         const { selectedTasks, showConfirm, editTask, openNewTaskModal } = this.state;
@@ -196,7 +147,7 @@ class ToDo extends PureComponent {
                 <Col key={task._id} xs={12} sm={6} md={4} lg={3} xl={2}>
                     <Task
                         data={task}
-                        onRemove={this.removeTask}
+                        // onRemove={this.removeTask}
                         onCheck={this.handleCheck}
                         disabled={!!selectedTasks.size}
                         onEdit={this.toogleEditModal}
@@ -257,7 +208,6 @@ class ToDo extends PureComponent {
 
                 { openNewTaskModal &&
                     <AddTask
-                        onAdd={this.addTask}
                         onClose = {this.toggleNewTaskModal}
                     />
                 }
@@ -272,17 +222,11 @@ class ToDo extends PureComponent {
 
 const mapStateToProps = (state)=>{
     return {
-        tasks: state.tasks
+        tasks: state.tasks,
+        addTaskSuccess: state.addTaskSuccess
     };
 }
 
-// const mapDispatchToProps = (dispatch)=>{
-//     return {
-//         getTasks: ()=>{
-//             dispatch({})
-//         }
-//     };
-// }
 
 const mapDispatchToProps = {
     getTasks: getTasks

@@ -6,6 +6,8 @@ import styles from './taskStyle.module.css';
 import PropTypes from 'prop-types';
 import {formatDate} from '../../helpers/utils';
 import { Link } from 'react-router-dom';
+import {connect} from 'react-redux';
+import {removeTask} from '../../store/actions';
 
 class Task extends PureComponent{
 state = {
@@ -55,7 +57,7 @@ handleCheck = ()=>{
                             <Button 
                             variant="danger"  
                             className={styles.actionButton}
-                            onClick = {()=>this.props.onRemove(task._id)}
+                            onClick = {()=>this.props.removeTask(task._id)}
                             disabled = {disabled}
                             >
                             <FontAwesomeIcon icon={faTrash} />
@@ -69,9 +71,11 @@ handleCheck = ()=>{
 
 Task.propTypes = {
     data: PropTypes.object.isRequired,
-    onRemove: PropTypes.func.isRequired,
     onCheck: PropTypes.func.isRequired,
     disabled: PropTypes.bool.isRequired
 };
 
-export default Task;
+const mapDispatchToProps = {
+    removeTask
+};
+export default connect(null, mapDispatchToProps)(Task);

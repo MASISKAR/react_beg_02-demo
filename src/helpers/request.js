@@ -16,7 +16,7 @@ function request(url, method="GET", body){
         .then((res) => res.json())
         .then(response => {
             if (response.error) {
-                throw new Error(response.error);
+                throw response.error;
             }
             return response;
         });
