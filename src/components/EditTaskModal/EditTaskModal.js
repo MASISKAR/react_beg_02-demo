@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styles from './editTaskModalStyle.module.css';
+import {connect} from 'react-redux';
+import {editTask} from '../../store/actions';
 
-export default class EditTaskModal extends Component{
+class EditTaskModal extends Component{
   constructor(props){
     super(props);
  const {date} = props.data;
@@ -44,7 +46,7 @@ componentDidMount(){
       date: date.toISOString().slice(0, 10)
     };
 
-    this.props.onSave(editedTask);
+    this.props.editTask(editedTask, this.props.from);
   }
 
   handleDateChange = (date)=>{
@@ -110,6 +112,11 @@ componentDidMount(){
 
 EditTaskModal.propTypes = {
     data: PropTypes.object.isRequired,
-    onSave: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired
 };
+
+const mapDispatchToProps = {
+  editTask
+}
+
+export default connect(null, mapDispatchToProps)(EditTaskModal);
