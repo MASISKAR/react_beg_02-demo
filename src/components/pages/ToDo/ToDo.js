@@ -4,6 +4,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import AddTask from '../../AddTask/AddTask';
 import Confirm from '../../Confirm';
 import EditTaskModal from '../../EditTaskModal/EditTaskModal';
+import Search from '../../Search/Search';
 import styles from './todoStyle.module.css';
 import { connect } from 'react-redux';
 import { getTasks, removeSelected } from '../../../store/actions';
@@ -108,6 +109,8 @@ class ToDo extends PureComponent {
         return (
             <div className={styles.toDo}>
                 <Container>
+                    <Search/>
+
                     <Row className='justify-content-center text-center'>
                         <Col sm={10} xs={12} md={8} lg={6}>
                             <Button

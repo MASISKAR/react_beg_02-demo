@@ -8,6 +8,7 @@ const defaultState = {
   addTaskSuccess: false,
   editTaskSuccess: false,
   removeTasksSuccess: false,
+  removeTaskSuccess: false,
   loading: false
 };
 
@@ -20,6 +21,7 @@ const reducer = (state = defaultState, action) => {
         loading: true,
         addTaskSuccess: false,
         removeTasksSuccess: false,
+        removeTaskSuccess: false,
         editTaskSuccess: false,
         errorMessage: null,
         successMessage: null,
@@ -56,7 +58,17 @@ const reducer = (state = defaultState, action) => {
     }
 
     case actionTypes.REMOVE_TASK_SUCCESS: {
-      const newTasks = state.tasks.filter(task => task._id !== action.taskId);
+      if(action.from==="single"){
+        return {
+          ...state,
+          task: null,
+          loading: false,
+          removeTaskSuccess: true,
+          successMessage: 'Task removed successfully 🎉!!!',
+        }
+      }
+      else {
+         const newTasks = state.tasks.filter(task => task._id !== action.taskId);
 
       return {
         ...state,
@@ -64,6 +76,8 @@ const reducer = (state = defaultState, action) => {
         loading: false,
         successMessage: 'Task removed successfully 🎉!!!',
       }
+      }
+     
     }
 
     case actionTypes.REMOVE_SELECTED_TASKS_SUCCESS: {

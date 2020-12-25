@@ -1,12 +1,25 @@
 import request from '../helpers/request';
 import * as actionTypes from './actionTypes';
+// import {history} from '../history';
 
 //action creator
-export function getTasks(){
+export function getTasks(data={}){
+    let url = 'http://localhost:3001/task';
+
+    let query = '?';
+    for(let key in data){
+        let value = data[key];
+        query = `${query}${key}=${value}&`;
+    }
+
+    if(query==='?'){
+        query = '';
+    }
+
     return (dispatch)=>{
         dispatch({type: actionTypes.LOADING});
 
-        request('http://localhost:3001/task')
+        request(url+query)
         .then(res =>{
             dispatch({type: actionTypes.GET_TASKS_SUCCESS, tasks: res});
         })
@@ -47,13 +60,18 @@ export function addTask(data){
     }
 }
 
-export function removeTask(taskId){
+
+export function removeTask(taskId, from="tasks", redirect){
+
     return (dispatch)=>{
         dispatch({type: actionTypes.LOADING});
 
         request(`http://localhost:3001/task/${taskId}`, 'DELETE')
         .then(res =>{
-            dispatch({type: actionTypes.REMOVE_TASK_SUCCESS, taskId});
+            dispatch({type: actionTypes.REMOVE_TASK_SUCCESS, taskId, from});
+            if(from==="single"){
+                redirect("/");
+            }
         })
         .catch(err =>{
             dispatch({type: actionTypes.ERROR, error: err.message});
